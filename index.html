@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programação: O Futuro do Mundo Digital</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/galaxy.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="dark-mode">
+    <!-- Galáxia 3D de Fundo -->
+    <div class="galaxy-container">
+        <div class="stars"></div>
+        <div class="stars2"></div>
+        <div class="stars3"></div>
+        <div class="nebula" id="nebula"></div>
+        <div class="galaxy-3d" id="galaxy3d">
+            <div class="galaxy-ring ring1"></div>
+            <div class="galaxy-ring ring2"></div>
+            <div class="galaxy-ring ring3"></div>
+            <div class="galaxy-core"></div>
+        </div>
+    </div>
+
+    <!-- Tela de Introdução -->
+    <div class="intro-screen" id="introScreen">
+        <div class="intro-content">
+            <h1 class="intro-title">
+                <span class="glitch" data-text="PROGRAMAÇÃO">PROGRAMAÇÃO</span>
+            </h1>
+            <p class="intro-subtitle">O Futuro do Mundo Digital</p>
+            <div class="intro-loader">
+                <div class="loader-bar"></div>
+            </div>
+            <button class="intro-btn" id="startBtn">
+                <span>INICIAR JORNADA</span>
+                <i class="fas fa-rocket"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Menu de Configurações -->
+    <div class="settings-menu" id="settingsMenu">
+        <button class="settings-toggle" id="settingsToggle">
+            <i class="fas fa-cog"></i>
+        </button>
+        <div class="settings-panel">
+            <h3>Configurações</h3>
+            
+            <!-- Idioma -->
+            <div class="setting-item">
+                <label>Idioma / Language</label>
+                <select id="languageSelect">
+                    <option value="pt-BR">Português</option>
+                    <option value="en">English</option>
+                </select>
+            </div>
+            
+            <!-- Modo -->
+            <div class="setting-item">
+                <label>Modo de Visualização</label>
+                <div class="mode-buttons">
+                    <button class="mode-btn active" data-mode="normal">Normal</button>
+                    <button class="mode-btn" data-mode="leve">Leve</button>
+                    <button class="mode-btn" data-mode="turbo">Turbo</button>
+                </div>
+            </div>
+            
+            <!-- Tema -->
+            <div class="setting-item">
+                <label>Tema</label>
+                <div class="theme-buttons">
+                    <button class="theme-btn active" data-theme="dark">
+                        <i class="fas fa-moon"></i> Escuro
+                    </button>
+                    <button class="theme-btn" data-theme="light">
+                        <i class="fas fa-sun"></i> Claro
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Controles de Música -->
+            <div class="setting-item">
+                <label>Música</label>
+                <div class="music-controls">
+                    <button class="music-control-btn" id="audioToggle" title="Ligar/Desligar Música">
+                        <i class="fas fa-volume-mute"></i>
+                    </button>
+                    <button class="music-control-btn" id="playPauseBtn" title="Play/Pause">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button class="music-control-btn" id="restartMusicBtn" title="Reiniciar Música">
+                        <i class="fas fa-redo"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Volume da Música -->
+            <div class="setting-item">
+                <label>Volume: <span id="volumeValue">30%</span></label>
+                <input type="range" id="volumeSlider" min="0" max="100" value="30" class="volume-slider">
+            </div>
+            
+            <!-- Modo Apresentação -->
+            <div class="setting-item">
+                <label>Modo Apresentação</label>
+                <button class="presentation-btn" id="presentationMode">
+                    <i class="fas fa-desktop"></i> Iniciar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comutador Mobile -->
+    <button class="mobile-toggle" id="mobileToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-items">
+            <div class="mobile-nav-item" id="mobilePrev">
+                <i class="fas fa-chevron-left"></i>
+                <span>Anterior</span>
+            </div>
+            <div class="mobile-nav-item" id="mobileHome">
+                <i class="fas fa-home"></i>
+                <span>Início</span>
+            </div>
+            <div class="mobile-nav-item" id="mobileNext">
+                <i class="fas fa-chevron-right"></i>
+                <span>Próximo</span>
+            </div>
+            <div class="mobile-nav-item" id="mobileSettings">
+                <i class="fas fa-cog"></i>
+                <span>Config</span>
+            </div>
+            <div class="mobile-nav-item" id="mobilePresentation">
+                <i class="fas fa-desktop"></i>
+                <span>Apresentar</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content" id="mainContent">
+        <!-- Slide 1: Informações do Grupo -->
+        <section class="slide active" id="slide1">
+            <div class="slide-content">
+                <div class="group-info">
+                    <h1 class="main-title" data-pt="Programação: O Futuro do Mundo Digital" data-en="Programming: The Future of the Digital World">
+                        Programação: O Futuro do Mundo Digital
+                    </h1>
+                    
+                    <div class="school-info">
+                        <h2 data-pt="Escola Estadual São Luiz" data-en="São Luiz State School">Escola Estadual São Luiz</h2>
+                        <p class="presentation-date" data-pt="Apresentação de Trabalho" data-en="Work Presentation">Apresentação de Trabalho</p>
+                    </div>
+                    
+                    <div class="team-members">
+                        <h3 data-pt="Integrantes do Grupo" data-en="Team Members">Integrantes do Grupo</h3>
+                        <div class="members-grid">
+                            <div class="member-card creator">
+                                <div class="member-avatar">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                <h4>Alan Filipy</h4>
+                                <p class="member-role" data-pt="Criador do Site e Animações" data-en="Website Creator and Animations">Criador do Site e Animações</p>
+                                <div class="creator-badge">
+                                    <i class="fas fa-star"></i>
+                                    <span data-pt="Desenvolvedor" data-en="Developer">Desenvolvedor</span>
+                                </div>
+                            </div>
+                            
+                            <div class="member-card">
+                                <div class="member-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h4>Victor Gabriel</h4>
+                                <p class="member-role" data-pt="Pesquisador" data-en="Researcher">Pesquisador</p>
+                            </div>
+                            
+                            <div class="member-card">
+                                <div class="member-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h4>Maria Eduarda Borges</h4>
+                                <p class="member-role" data-pt="Pesquisadora" data-en="Researcher">Pesquisadora</p>
+                            </div>
+                            
+                            <div class="member-card">
+                                <div class="member-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h4>Nicole Ramos</h4>
+                                <p class="member-role" data-pt="Pesquisadora" data-en="Researcher">Pesquisadora</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 2: Impactos da IA -->
+        <section class="slide" id="slide2">
+            <div class="slide-content">
+                <h2 class="slide-title" data-pt="Impactos da IA na Programação" data-en="AI Impacts on Programming">
+                    Impactos da IA na Programação
+                </h2>
+                
+                <div class="topic-grid">
+                    <div class="topic-card">
+                        <div class="card-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3 data-pt="Otimização de Código" data-en="Code Optimization">Otimização de Código</h3>
+                        <p data-pt="IA ajuda a escrever código mais eficiente, identificar bugs e sugerir melhorias automáticas." 
+                           data-en="AI helps write more efficient code, identify bugs, and suggest automatic improvements.">
+                            IA ajuda a escrever código mais eficiente, identificar bugs e sugerir melhorias automáticas.
+                        </p>
+                        <div class="code-example">
+                            <pre><code>// IA sugerindo otimização
+// Antes:
+for(let i = 0; i < arr.length; i++) {
+    process(arr[i]);
+}
+
+// Depois (IA):
+arr.forEach(process);</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div class="topic-card">
+                        <div class="card-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 data-pt="Automação de Tarefas" data-en="Task Automation">Automação de Tarefas</h3>
+                        <p data-pt="IA automatiza testes, deploy e documentação, liberando tempo para desenvolvimento criativo." 
+                           data-en="AI automates testing, deployment, and documentation, freeing time for creative development.">
+                            IA automatiza testes, deploy e documentação, liberando tempo para desenvolvimento criativo.
+                        </p>
+                        <div class="code-example">
+                            <pre><code>// CI/CD com IA
+ai.test();
+ai.deploy();
+ai.document();</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div class="topic-card">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 data-pt="Análise Preditiva" data-en="Predictive Analysis">Análise Preditiva</h3>
+                        <p data-pt="Previsão de bugs, análise de performance e otimização de recursos antes mesmo dos problemas ocorrerem." 
+                           data-en="Bug prediction, performance analysis, and resource optimization before problems even occur.">
+                            Previsão de bugs, análise de performance e otimização de recursos antes mesmo dos problemas ocorrerem.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 3: Benefícios da Programação -->
+        <section class="slide" id="slide3">
+            <div class="slide-content">
+                <h2 class="slide-title" data-pt="Benefícios da Programação" data-en="Benefits of Programming">
+                    Benefícios da Programação
+                </h2>
+                
+                <div class="benefits-container">
+                    <div class="benefit-section">
+                        <h3 data-pt="Para a Sociedade" data-en="For Society">Para a Sociedade</h3>
+                        <div class="benefit-grid">
+                            <div class="benefit-item">
+                                <i class="fas fa-hospital"></i>
+                                <h4 data-pt="Saúde Digital" data-en="Digital Health">Saúde Digital</h4>
+                                <p data-pt="Sistemas médicos que salvam vidas e melhoram diagnósticos." 
+                                   data-en="Medical systems that save lives and improve diagnoses.">
+                                    Sistemas médicos que salvam vidas e melhoram diagnósticos.
+                                </p>
+                            </div>
+                            <div class="benefit-item">
+                                <i class="fas fa-graduation-cap"></i>
+                                <h4 data-pt="Educação" data-en="Education">Educação</h4>
+                                <p data-pt="Plataformas de aprendizado acessíveis para todos." 
+                                   data-en="Accessible learning platforms for everyone.">
+                                    Plataformas de aprendizado acessíveis para todos.
+                                </p>
+                            </div>
+                            <div class="benefit-item">
+                                <i class="fas fa-universal-access"></i>
+                                <h4 data-pt="Inclusão" data-en="Inclusion">Inclusão</h4>
+                                <p data-pt="Tecnologias assistivas para pessoas com deficiências." 
+                                   data-en="Assistive technologies for people with disabilities.">
+                                    Tecnologias assistivas para pessoas com deficiências.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="benefit-section">
+                        <h3 data-pt="Para as Empresas" data-en="For Companies">Para as Empresas</h3>
+                        <div class="benefit-grid">
+                            <div class="benefit-item">
+                                <i class="fas fa-chart-pie"></i>
+                                <h4 data-pt="Eficiência" data-en="Efficiency">Eficiência</h4>
+                                <p data-pt="Automação de processos e redução de custos operacionais." 
+                                   data-en="Process automation and reduction of operational costs.">
+                                    Automação de processos e redução de custos operacionais.
+                                </p>
+                            </div>
+                            <div class="benefit-item">
+                                <i class="fas fa-globe"></i>
+                                <h4 data-pt="Expansão" data-en="Expansion">Expansão</h4>
+                                <p data-pt="Alcance global e novos mercados digitais." 
+                                   data-en="Global reach and new digital markets.">
+                                    Alcance global e novos mercados digitais.
+                                </p>
+                            </div>
+                            <div class="benefit-item">
+                                <i class="fas fa-lightbulb"></i>
+                                <h4 data-pt="Inovação" data-en="Innovation">Inovação</h4>
+                                <p data-pt="Desenvolvimento de produtos e serviços revolucionários." 
+                                   data-en="Development of revolutionary products and services.">
+                                    Desenvolvimento de produtos e serviços revolucionários.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 4: Importância do Inglês -->
+        <section class="slide" id="slide4">
+            <div class="slide-content">
+                <h2 class="slide-title" data-pt="O Inglês na Programação" data-en="English in Programming">
+                    O Inglês na Programação
+                </h2>
+                
+                <div class="english-importance">
+                    <div class="importance-card featured">
+                        <div class="card-icon large">
+                            <i class="fas fa-language"></i>
+                        </div>
+                        <h3 data-pt="Linguagem Universal" data-en="Universal Language">Linguagem Universal</h3>
+                        <p data-pt="O inglês é a base de todas as linguagens de programação e documentações técnicas." 
+                           data-en="English is the foundation of all programming languages and technical documentation.">
+                            O inglês é a base de todas as linguagens de programação e documentações técnicas.
+                        </p>
+                        <div class="code-example large">
+                            <pre><code>// Palavras-chave em inglês
+function calculateSum(a, b) {
+    const result = a + b;
+    return result;
+}
+
+// Variáveis e funções
+const userName = "developer";
+const isActive = true;</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div class="importance-grid">
+                        <div class="importance-item">
+                            <i class="fas fa-book"></i>
+                            <h4 data-pt="Documentação" data-en="Documentation">Documentação</h4>
+                            <p data-pt="95% das documentações estão em inglês." 
+                               data-en="95% of documentation is in English.">
+                                95% das documentações estão em inglês.
+                            </p>
+                        </div>
+                        
+                        <div class="importance-item">
+                            <i class="fas fa-users"></i>
+                            <h4 data-pt="Comunidade Global" data-en="Global Community">Comunidade Global</h4>
+                            <p data-pt="Acesso a fóruns, Stack Overflow e GitHub." 
+                               data-en="Access to forums, Stack Overflow, and GitHub.">
+                                Acesso a fóruns, Stack Overflow e GitHub.
+                            </p>
+                        </div>
+                        
+                        <div class="importance-item">
+                            <i class="fas fa-briefcase"></i>
+                            <h4 data-pt="Oportunidades" data-en="Opportunities">Oportunidades</h4>
+                            <p data-pt="Empresas internacionais e remote work." 
+                               data-en="International companies and remote work.">
+                                Empresas internacionais e remote work.
+                            </p>
+                        </div>
+                        
+                        <div class="importance-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <h4 data-pt="Aprendizado" data-en="Learning">Aprendizado</h4>
+                            <p data-pt="Cursos, tutoriais e recursos atualizados." 
+                               data-en="Courses, tutorials, and updated resources.">
+                                Cursos, tutoriais e recursos atualizados.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 5: IA e Eficiência -->
+        <section class="slide" id="slide5">
+            <div class="slide-content">
+                <h2 class="slide-title" data-pt="IA e a Nova Eficiência na Programação" data-en="AI and the New Efficiency in Programming">
+                    IA e a Nova Eficiência na Programação
+                </h2>
+                
+                <div class="efficiency-container">
+                    <div class="efficiency-intro">
+                        <p data-pt="A Inteligência Artificial é um co-piloto que redefine a eficiência do trabalho do programador, permitindo que o foco mude da codificação repetitiva para a arquitetura de soluções e a inovação." data-en="Artificial Intelligence is a co-pilot that redefines programmer efficiency, allowing focus to shift from repetitive coding to solution architecture and innovation.">
+                            A Inteligência Artificial é um co-piloto que redefine a eficiência do trabalho do programador, permitindo que o foco mude da codificação repetitiva para a arquitetura de soluções e a inovação.
+                        </p>
+                    </div>
+                    
+                    <div class="efficiency-grid">
+                        <div class="efficiency-card">
+                            <div class="card-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h3 data-pt="Geração de Código" data-en="Code Generation">Geração de Código</h3>
+                            <p data-pt="Criação automática de blocos de código, funções e testes a partir de comentários. Reduz o tempo em tarefas repetitivas." data-en="Automatic creation of code blocks, functions and tests from comments. Reduces time on repetitive tasks.">
+                                Criação automática de blocos de código, funções e testes a partir de comentários. Reduz o tempo em tarefas repetitivas.
+                            </p>
+                        </div>
+                        
+                        <div class="efficiency-card">
+                            <div class="card-icon">
+                                <i class="fas fa-hammer"></i>
+                            </div>
+                            <h3 data-pt="Refatoração Inteligente" data-en="Smart Refactoring">Refatoração Inteligente</h3>
+                            <p data-pt="Análise do código para sugerir padrões mais limpos e otimizações de performance. Melhora a qualidade do código automaticamente." data-en="Code analysis to suggest cleaner patterns and performance optimizations. Automatically improves code quality.">
+                                Análise do código para sugerir padrões mais limpos e otimizações de performance. Melhora a qualidade do código automaticamente.
+                            </p>
+                        </div>
+                        
+                        <div class="efficiency-card">
+                            <div class="card-icon">
+                                <i class="fas fa-bug"></i>
+                            </div>
+                            <h3 data-pt="Detecção de Bugs" data-en="Bug Detection">Detecção de Bugs</h3>
+                            <p data-pt="Identificação proativa de falhas e vulnerabilidades em tempo real. A IA sugere a correção mais provável." data-en="Proactive identification of failures and vulnerabilities in real time. AI suggests the most likely fix.">
+                                Identificação proativa de falhas e vulnerabilidades em tempo real. A IA sugere a correção mais provável.
+                            </p>
+                        </div>
+                        
+                        <div class="efficiency-card">
+                            <div class="card-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <h3 data-pt="Documentação Automática" data-en="Automatic Documentation">Documentação Automática</h3>
+                            <p data-pt="Geração de documentação técnica e comentários de forma instantânea. Mantém a documentação sempre sincronizada." data-en="Generation of technical documentation and comments instantly. Keeps documentation always synchronized.">
+                                Geração de documentação técnica e comentários de forma instantânea. Mantém a documentação sempre sincronizada.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="efficiency-conclusion">
+                        <p data-pt="A IA eleva o programador de um mero 'escritor de código' para um arquiteto de sistemas, aumentando a produtividade em até 70% em tarefas rotineiras." data-en="AI elevates the programmer from a mere 'code writer' to a systems architect, increasing productivity by up to 70% on routine tasks.">
+                            <strong>Conclusão:</strong> A IA eleva o programador de um mero "escritor de código" para um <strong>arquiteto de sistemas</strong>, aumentando a produtividade em até 70% em tarefas rotineiras.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: Benefícios Essenciais -->
+        <section class="slide" id="slide6">
+            <div class="slide-content">
+                <h2 class="slide-title" data-pt="Benefícios Essenciais da Programação" data-en="Essential Benefits of Programming">
+                    Benefícios Essenciais da Programação
+                </h2>
+                
+                <div class="advanced-benefits-container">
+                    <div class="benefits-intro">
+                        <p data-pt="A programação é a espinha dorsal da sociedade moderna, impactando diretamente a segurança, a economia e a qualidade de vida." data-en="Programming is the backbone of modern society, directly impacting security, economy and quality of life.">
+                            A programação é a espinha dorsal da sociedade moderna, impactando diretamente a <strong>segurança</strong>, a <strong>economia</strong> e a <strong>qualidade de vida</strong>.
+                        </p>
+                    </div>
+                    
+                    <div class="advanced-benefits-grid">
+                        <div class="advanced-benefit-card">
+                            <div class="card-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3 data-pt="Cibersegurança" data-en="Cybersecurity">Cibersegurança</h3>
+                            <p data-pt="Desenvolvimento de firewalls, sistemas de criptografia e ferramentas de detecção de intrusão para proteger dados pessoais e empresariais." data-en="Development of firewalls, encryption systems and intrusion detection tools to protect personal and business data.">
+                                Desenvolvimento de firewalls, sistemas de criptografia e ferramentas de detecção de intrusão para proteger dados pessoais e empresariais.
+                            </p>
+                        </div>
+                        
+                        <div class="advanced-benefit-card">
+                            <div class="card-icon">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <h3 data-pt="Inclusão Financeira" data-en="Financial Inclusion">Inclusão Financeira</h3>
+                            <p data-pt="Criação de aplicativos bancários, sistemas de pagamento instantâneo e plataformas de investimento que democratizam o acesso a serviços financeiros." data-en="Creation of banking apps, instant payment systems and investment platforms that democratize access to financial services.">
+                                Criação de aplicativos bancários, sistemas de pagamento instantâneo e plataformas de investimento que democratizam o acesso a serviços financeiros.
+                            </p>
+                        </div>
+                        
+                        <div class="advanced-benefit-card">
+                            <div class="card-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <h3 data-pt="Comunicação Global" data-en="Global Communication">Comunicação Global</h3>
+                            <p data-pt="Criação de redes sociais, aplicativos de mensagens e infraestruturas que conectam pessoas e empresas em tempo real globalmente." data-en="Creation of social networks, messaging apps and infrastructures that connect people and companies in real time globally.">
+                                Criação de redes sociais, aplicativos de mensagens e infraestruturas que conectam pessoas e empresas em tempo real globalmente.
+                            </p>
+                        </div>
+                        
+                        <div class="advanced-benefit-card">
+                            <div class="card-icon">
+                                <i class="fas fa-gamepad"></i>
+                            </div>
+                            <h3 data-pt="Entretenimento Imersivo" data-en="Immersive Entertainment">Entretenimento Imersivo</h3>
+                            <p data-pt="Desenvolvimento de jogos, realidade virtual (VR), realidade aumentada (AR) e plataformas de streaming que criam uma indústria multibilionária." data-en="Development of games, virtual reality (VR), augmented reality (AR) and streaming platforms that create a multi-billion dollar industry.">
+                                Desenvolvimento de jogos, realidade virtual (VR), realidade aumentada (AR) e plataformas de streaming que criam uma indústria multibilionária.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 7: Inglês na Carreira -->
+        <section class="slide" id="slide7">
+            <div class="slide-content">
+                <h2 class="slide-title" data-pt="Inglês: O Pilar da Carreira em Programação" data-en="English: The Pillar of a Programming Career">
+                    Inglês: O Pilar da Carreira em Programação
+                </h2>
+                
+                <div class="english-career-container">
+                    <div class="english-intro">
+                        <p data-pt="O inglês não é um diferencial, mas sim um requisito básico para o programador que almeja uma carreira de sucesso e deseja participar ativamente da comunidade global." data-en="English is not a differential, but a basic requirement for programmers who aspire to a successful career and want to actively participate in the global community.">
+                            O inglês não é um diferencial, mas sim um <strong>requisito básico</strong> para o programador que almeja uma carreira de sucesso.
+                        </p>
+                    </div>
+                    
+                    <div class="english-career-grid">
+                        <div class="english-career-card featured">
+                            <div class="card-icon">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <h3 data-pt="Acesso a Novas Tecnologias" data-en="Access to New Technologies">Acesso a Novas Tecnologias</h3>
+                            <p data-pt="As últimas bibliotecas, frameworks e artigos de pesquisa são lançados primeiramente em inglês. O domínio garante estar sempre na vanguarda." data-en="Latest libraries, frameworks and research papers are released first in English. Mastery ensures always being at the forefront.">
+                                As últimas bibliotecas, frameworks e artigos de pesquisa são lançados primeiramente em inglês. O domínio garante estar sempre na vanguarda.
+                            </p>
+                        </div>
+                        
+                        <div class="english-career-card">
+                            <div class="card-icon">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <h3 data-pt="Colaboração Global" data-en="Global Collaboration">Colaboração Global</h3>
+                            <p data-pt="A maioria dos projetos open source e equipes remotas utilizam inglês. Fluência é essencial para contribuir e se comunicar eficazmente." data-en="Most open source projects and remote teams use English. Fluency is essential to contribute and communicate effectively.">
+                                A maioria dos projetos open source e equipes remotas utilizam inglês. Fluência é essencial para contribuir e se comunicar eficazmente.
+                            </p>
+                        </div>
+                        
+                        <div class="english-career-card">
+                            <div class="card-icon">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <h3 data-pt="Salário e Reconhecimento" data-en="Salary and Recognition">Salário e Reconhecimento</h3>
+                            <p data-pt="Profissionais com fluência em inglês podem ter salários 30% a 50% mais altos, com maior acesso a empresas multinacionais e vagas internacionais." data-en="Professionals fluent in English can earn 30-50% higher salaries, with greater access to multinational companies and international positions.">
+                                Profissionais com fluência em inglês podem ter salários <strong>30% a 50% mais altos</strong>, com maior acesso a empresas multinacionais.
+                            </p>
+                        </div>
+                        
+                        <div class="english-career-card">
+                            <div class="card-icon">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <h3 data-pt="Resolução de Problemas" data-en="Problem Solving">Resolução de Problemas</h3>
+                            <p data-pt="Busca por soluções em Stack Overflow, fóruns e comunidades é muito mais eficaz em inglês, reduzindo tempo de inatividade e aumentando autonomia." data-en="Searching for solutions on Stack Overflow, forums and communities is much more effective in English, reducing downtime and increasing autonomy.">
+                                Busca por soluções em Stack Overflow, fóruns e comunidades é muito mais eficaz em inglês, reduzindo tempo de inatividade.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Slide 8: Exemplos de Código -->
+        <section class="slide" id="slide8">
+            <div class="slide-content">
+                <h2 class="slide-title" data-pt="Exemplos de Código" data-en="Code Examples">
+                    Exemplos de Código
+                </h2>
+                
+                <div class="code-showcase">
+                    <div class="code-tabs">
+                        <button class="tab-btn active" data-lang="javascript">JavaScript</button>
+                        <button class="tab-btn" data-lang="python">Python</button>
+                        <button class="tab-btn" data-lang="java">Java</button>
+                    </div>
+                    
+                    <div class="code-content">
+                        <div class="code-block active" id="javascript">
+                            <div class="code-header">
+                                <span>JavaScript</span>
+                                <button class="copy-btn" data-code="js-code">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <pre><code id="js-code">// Função moderna com arrow function
+const calculateArea = (radius) => {
+    return Math.PI * radius * radius;
+};
+
+// Async/Await para requisições API
+const fetchData = async () => {
+    try {
+        const response = await fetch('/api/data');
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};</code></pre>
+                        </div>
+                        
+                        <div class="code-block" id="python">
+                            <div class="code-header">
+                                <span>Python</span>
+                                <button class="copy-btn" data-code="python-code">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <pre><code id="python-code"># List comprehension em Python
+squares = [x**2 for x in range(10)]
+
+# Função com type hints
+def calculate_volume(length: float, width: float, height: float) -> float:
+    """Calculate the volume of a rectangular prism."""
+    return length * width * height
+
+# Context manager para arquivos
+with open('data.txt', 'r') as file:
+    content = file.read()
+    print(content)</code></pre>
+                        </div>
+                        
+                        <div class="code-block" id="java">
+                            <div class="code-header">
+                                <span>Java</span>
+                                <button class="copy-btn" data-code="java-code">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <pre><code id="java-code">// Classe Java com encapsulamento
+public class Calculator {
+    private double result;
+    
+    public Calculator() {
+        this.result = 0.0;
+    }
+    
+    public void add(double value) {
+        this.result += value;
+    }
+    
+    public double getResult() {
+        return this.result;
+    }
+    
+    // Método estático
+    public static int factorial(int n) {
+        return n <= 1 ? 1 : n * factorial(n - 1);
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Navegação em Modo Apresentação -->
+    <div class="presentation-nav" id="presentationNav">
+        <button class="nav-btn prev-btn" id="prevBtn">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="slide-indicator">
+            <span id="currentSlide">1</span> / <span id="totalSlides">8</span>
+        </div>
+        <button class="nav-btn next-btn" id="nextBtn">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+        <button class="nav-btn exit-btn" id="exitPresentation">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <!-- Audio Background -->
+    <audio id="homeAudio" loop>
+        <source src="home-music.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="presentationAudio" loop>
+        <source src="presentation-music.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="js/main.js"></script>
+    <script src="js/galaxy.js"></script>
+    <script src="js/presentation.js"></script>
+</body>
+</html>
