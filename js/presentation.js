@@ -324,18 +324,13 @@ class PresentationManager {
     }
 
     animateSlideContent(slide) {
-        const elements = slide.querySelectorAll('.topic-card, .benefit-item, .importance-item, .member-card, h2, h3, p');
-        
-        // Resetar animações
-        elements.forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.5s ease';
-        });
-        
-        // Animar elementos em sequência
+        const elements = slide.querySelectorAll('[data-animate]');
         elements.forEach((el, index) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            
             setTimeout(() => {
+                el.style.transition = 'all 0.5s ease';
                 el.style.opacity = '1';
                 el.style.transform = 'translateY(0)';
             }, index * 100);
@@ -343,19 +338,18 @@ class PresentationManager {
     }
 
     updateProgress() {
-        // Atualizar barra de progresso
         const progressFill = document.getElementById('progressFill');
+        const progressDots = document.querySelectorAll('.progress-dot');
+        
         if (progressFill) {
-            const progress = (this.currentSlide / this.totalSlides) * 100;
-            progressFill.style.width = `${progress}%`;
+            const percentage = (this.currentSlide / this.totalSlides) * 100;
+            progressFill.style.width = percentage + '%';
         }
         
-        // Atualizar dots
-        const dots = document.querySelectorAll('.progress-dot');
-        dots.forEach((dot, index) => {
-            if (index + 1 === this.currentSlide) {
+        progressDots.forEach(dot => {
+            if (parseInt(dot.dataset.slide) === this.currentSlide) {
                 dot.style.background = 'var(--accent-light)';
-                dot.style.transform = 'scale(1.3)';
+                dot.style.transform = 'scale(1.2)';
             } else {
                 dot.style.background = 'rgba(255, 255, 255, 0.3)';
                 dot.style.transform = 'scale(1)';
@@ -364,52 +358,62 @@ class PresentationManager {
     }
 
     updateNavigation() {
-        // Atualizar indicador de slide
         const currentSlideEl = document.getElementById('currentSlide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        
         if (currentSlideEl) {
             currentSlideEl.textContent = this.currentSlide;
         }
         
-        // Habilitar/desabilitar botões
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        
         if (prevBtn) {
-            prevBtn.style.opacity = this.currentSlide === 1 ? '0.5' : '1';
             prevBtn.disabled = this.currentSlide === 1;
         }
         
         if (nextBtn) {
-            nextBtn.style.opacity = this.currentSlide === this.totalSlides ? '0.5' : '1';
             nextBtn.disabled = this.currentSlide === this.totalSlides;
+        }
+        
+        // Adicionar event listeners aos botões
+        if (prevBtn && !prevBtn.hasListener) {
+            prevBtn.addEventListener('click', () => this.previousSlide());
+            prevBtn.hasListener = true;
+        }
+        
+        if (nextBtn && !nextBtn.hasListener) {
+            nextBtn.addEventListener('click', () => this.nextSlide());
+            nextBtn.hasListener = true;
+        }
+        
+        const exitBtn = document.getElementById('exitPresentation');
+        if (exitBtn && !exitBtn.hasListener) {
+            exitBtn.addEventListener('click', () => this.exitPresentation());
+            exitBtn.hasListener = true;
         }
     }
 
     toggleAutoPlay() {
         this.autoPlay = !this.autoPlay;
-        
         const autoPlayBtn = document.getElementById('autoPlayBtn');
+        
         if (autoPlayBtn) {
-            const icon = autoPlayBtn.querySelector('i');
             if (this.autoPlay) {
-                icon.className = 'fas fa-pause';
+                autoPlayBtn.style.background = 'var(--accent-light)';
                 this.startAutoPlay();
             } else {
-                icon.className = 'fas fa-play';
+                autoPlayBtn.style.background = 'var(--card-bg)';
                 this.stopAutoPlay();
             }
         }
     }
 
     startAutoPlay() {
-        if (this.slideTimer) {
-            clearTimeout(this.slideTimer);
+        if (this.autoPlay) {
+            const timer = this.slideTimers[this.currentSlide] || 10000;
+            this.slideTimer = setTimeout(() => {
+                this.nextSlide();
+            }, timer);
         }
-        
-        const timer = this.slideTimers[this.currentSlide] || 10000;
-        this.slideTimer = setTimeout(() => {
-            this.nextSlide();
-        }, timer);
     }
 
     stopAutoPlay() {
@@ -497,7 +501,7 @@ class PresentationManager {
                             nav.classList.toggle('pinned');
                         }
                         clickCount = 0;
-                    }, 300);
+                    }, 250);
                 } else if (clickCount === 2) {
                     // Clique duplo: ocultar o menu
                     clearTimeout(clickTimer);
@@ -554,90 +558,69 @@ class PresentationManager {
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(26, 0, 51, 0.95);
-            z-index: 1003;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
             padding: 20px;
-            backdrop-filter: blur(10px);
+            overflow-y: auto;
         `;
-
-        // Adicionar miniaturas dos slides
+        
+        // Criar thumbnails de slides
         for (let i = 1; i <= this.totalSlides; i++) {
-            const slideThumb = document.createElement('div');
-            slideThumb.className = 'slide-thumbnail';
-            slideThumb.innerHTML = `
-                <div class="thumb-number">${i}</div>
-                <div class="thumb-title">Slide ${i}</div>
-            `;
-            
-            slideThumb.style.cssText = `
-                width: 200px;
-                height: 150px;
-                background: var(--card-bg);
-                border: 2px solid var(--border-color);
-                border-radius: 10px;
-                margin: 10px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                position: relative;
-            `;
-
-            slideThumb.addEventListener('click', () => {
-                document.body.removeChild(gridOverlay);
-                this.goToSlide(i);
-            });
-
-            slideThumb.addEventListener('mouseenter', () => {
-                slideThumb.style.transform = 'scale(1.05)';
-                slideThumb.style.borderColor = 'var(--accent-light)';
-            });
-
-            slideThumb.addEventListener('mouseleave', () => {
-                slideThumb.style.transform = 'scale(1)';
-                slideThumb.style.borderColor = 'var(--border-color)';
-            });
-
-            gridOverlay.appendChild(slideThumb);
+            const slide = document.getElementById(`slide${i}`);
+            if (slide) {
+                const thumbnail = document.createElement('div');
+                thumbnail.className = 'slide-thumbnail';
+                thumbnail.style.cssText = `
+                    background: var(--card-bg);
+                    border: 2px solid var(--border-color);
+                    border-radius: 10px;
+                    padding: 15px;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                `;
+                
+                thumbnail.innerHTML = `
+                    <h3 style="color: var(--text-primary); margin-bottom: 10px;">Slide ${i}</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">${slide.innerText.substring(0, 100)}...</p>
+                `;
+                
+                thumbnail.addEventListener('click', () => {
+                    this.goToSlide(i);
+                    gridOverlay.remove();
+                });
+                
+                thumbnail.addEventListener('mouseover', () => {
+                    thumbnail.style.borderColor = 'var(--accent-light)';
+                    thumbnail.style.transform = 'scale(1.05)';
+                });
+                
+                thumbnail.addEventListener('mouseout', () => {
+                    thumbnail.style.borderColor = 'var(--border-color)';
+                    thumbnail.style.transform = 'scale(1)';
+                });
+                
+                gridOverlay.appendChild(thumbnail);
+            }
         }
-
-        // Botão para fechar
-        const closeBtn = document.createElement('button');
-        closeBtn.innerHTML = '<i class="fas fa-times"></i> Fechar';
-        closeBtn.style.cssText = `
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: var(--gradient-primary);
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
-            z-index: 1004;
-        `;
-
-        closeBtn.addEventListener('click', () => {
-            document.body.removeChild(gridOverlay);
-        });
-
-        gridOverlay.appendChild(closeBtn);
+        
         document.body.appendChild(gridOverlay);
+        
+        // Fechar ao clicar fora
+        gridOverlay.addEventListener('click', (e) => {
+            if (e.target === gridOverlay) {
+                gridOverlay.remove();
+            }
+        });
     }
 
     toggleTimer() {
-        // Implementar timer de apresentação
-        if (!this.presentationTimer) {
-            this.startPresentationTimer();
-        } else {
+        if (this.presentationTimer) {
             this.stopPresentationTimer();
+        } else {
+            this.startPresentationTimer();
         }
     }
 
@@ -645,14 +628,13 @@ class PresentationManager {
         const startTime = Date.now();
         
         this.presentationTimer = document.createElement('div');
-        this.presentationTimer.className = 'presentation-timer';
         this.presentationTimer.style.cssText = `
             position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
+            bottom: 30px;
+            right: 30px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
             padding: 10px 20px;
             border-radius: 25px;
             font-family: 'Space Mono', monospace;
@@ -754,53 +736,36 @@ const presentationStyles = `
     }
 
     .control-btn:hover {
-        background: var(--accent-dark);
+        background: var(--accent-light);
         transform: scale(1.1);
-        box-shadow: var(--shadow-glow);
+    }
+
+    .control-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .grid-overlay {
+        animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
     }
 
     .slide-thumbnail {
         transition: all 0.3s ease;
     }
 
-    .thumb-number {
-        font-size: 2rem;
-        font-weight: bold;
-        color: var(--accent-light);
-        margin-bottom: 10px;
+    .slide-thumbnail:hover {
+        box-shadow: 0 0 20px rgba(147, 51, 234, 0.5);
     }
 
-    .thumb-title {
-        font-size: 0.9rem;
-        color: var(--text-secondary);
-    }
-
-    .presentation-timer {
-        font-family: 'Space Mono', monospace;
-        letter-spacing: 0.1em;
-    }
-
-    /* Animações especiais para modo apresentação */
-    .presentation-mode .slide {
-        transition: all 0.5s ease;
-    }
-
-    .presentation-mode .slide.active {
-        animation: slideZoomIn 0.5s ease;
-    }
-
-    @keyframes slideZoomIn {
-        from {
-            opacity: 0;
-            transform: scale(0.9);
-        }
-        to {
-            opacity: 1;
-            transform: scale(1);
-        }
-    }
-
-    /* Responsividade para controles */
     @media (max-width: 768px) {
         .presentation-controls {
             bottom: 80px;
