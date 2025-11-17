@@ -218,6 +218,9 @@ class PresentationManager {
         // Adicionar classe ao body
         document.body.classList.add('presentation-mode');
         
+        // Criar zona de gatilho para mostrar o menu
+        this.createTriggerZone();
+        
         // Mostrar controles
         this.showControls();
         
@@ -248,6 +251,9 @@ class PresentationManager {
         
         // Remover classe do body
         document.body.classList.remove('presentation-mode');
+        
+        // Remover zona de gatilho
+        this.removeTriggerZone();
         
         // Esconder controles
         this.hideControls();
@@ -457,6 +463,55 @@ class PresentationManager {
         
         if (nav) {
             nav.classList.remove('active');
+        }
+    }
+
+    createTriggerZone() {
+        // Remover zona anterior se existir
+        this.removeTriggerZone();
+        
+        // Criar zona de gatilho
+        const triggerZone = document.createElement('div');
+        triggerZone.className = 'presentation-nav-trigger-zone';
+        triggerZone.id = 'presentationNavTrigger';
+        document.body.appendChild(triggerZone);
+        
+        // Adicionar eventos de clique ao menu de navegacao
+        const nav = document.getElementById('presentationNav');
+        if (nav) {
+            let clickCount = 0;
+            let clickTimer = null;
+            
+            nav.addEventListener('click', (e) => {
+                // Nao contar cliques nos botoes de acao
+                if (e.target.closest('.nav-btn')) {
+                    return;
+                }
+                
+                clickCount++;
+                
+                if (clickCount === 1) {
+                    // Primeiro clique: fixar o menu
+                    clickTimer = setTimeout(() => {
+                        if (clickCount === 1) {
+                            nav.classList.toggle('pinned');
+                        }
+                        clickCount = 0;
+                    }, 300);
+                } else if (clickCount === 2) {
+                    // Clique duplo: ocultar o menu
+                    clearTimeout(clickTimer);
+                    nav.classList.remove('pinned');
+                    clickCount = 0;
+                }
+            });
+        }
+    }
+
+    removeTriggerZone() {
+        const triggerZone = document.getElementById('presentationNavTrigger');
+        if (triggerZone) {
+            triggerZone.remove();
         }
     }
 

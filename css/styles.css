@@ -2054,15 +2054,24 @@ body.presentation-mode .slide {
 /* Melhorias no Modo Apresentação */
 body.presentation-mode .presentation-nav {
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, bottom 0.3s ease;
+    pointer-events: none;
+    bottom: -100px !important;
 }
 
-body.presentation-mode:hover .presentation-nav {
-    opacity: 1;
-}
-
+/* Mostrar menu ao passar mouse na parte inferior */
+body.presentation-mode .presentation-nav-trigger-zone:hover ~ .presentation-nav,
 body.presentation-mode .presentation-nav:hover {
     opacity: 1;
+    pointer-events: auto;
+    bottom: 30px !important;
+}
+
+/* Menu fixado com a classe 'pinned' */
+body.presentation-mode .presentation-nav.pinned {
+    opacity: 1;
+    pointer-events: auto;
+    bottom: 30px !important;
 }
 
 /* Ocultar botões de navegação quando não estiver em hover no desktop */
@@ -2070,15 +2079,18 @@ body.presentation-mode .presentation-nav:hover {
     body.presentation-mode .presentation-nav {
         opacity: 0;
         pointer-events: none;
+        bottom: -100px !important;
     }
     
     body.presentation-mode .presentation-nav.active {
-        pointer-events: auto;
+        pointer-events: none;
     }
     
-    body.presentation-mode:hover .presentation-nav,
+    body.presentation-mode .presentation-nav.pinned,
     body.presentation-mode .presentation-nav:hover {
         opacity: 1;
+        pointer-events: auto;
+        bottom: 30px !important;
     }
 }
 
@@ -2087,7 +2099,19 @@ body.presentation-mode .presentation-nav:hover {
     body.presentation-mode .presentation-nav {
         opacity: 1;
         pointer-events: auto;
+        bottom: 30px !important;
     }
+}
+
+/* Zona de gatilho para mostrar o menu */
+body.presentation-mode .presentation-nav-trigger-zone {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    z-index: 999;
+    cursor: pointer;
 }
 
 /* Otimizações para mobile no modo apresentação */
