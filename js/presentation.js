@@ -384,12 +384,6 @@ class PresentationManager {
             nextBtn.addEventListener('click', () => this.nextSlide());
             nextBtn.hasListener = true;
         }
-        
-        const exitBtn = document.getElementById('exitPresentation');
-        if (exitBtn && !exitBtn.hasListener) {
-            exitBtn.addEventListener('click', () => this.exitPresentation());
-            exitBtn.hasListener = true;
-        }
     }
 
     toggleAutoPlay() {
@@ -480,33 +474,16 @@ class PresentationManager {
         triggerZone.id = 'presentationNavTrigger';
         document.body.appendChild(triggerZone);
         
-        // Adicionar eventos de clique ao menu de navegacao
-        const nav = document.getElementById('presentationNav');
-        if (nav) {
-            let clickCount = 0;
-            let clickTimer = null;
-            
-            nav.addEventListener('click', (e) => {
-                // Nao contar cliques nos botoes de acao
-                if (e.target.closest('.nav-btn')) {
-                    return;
-                }
-                
-                clickCount++;
-                
-                if (clickCount === 1) {
-                    // Primeiro clique: fixar o menu
-                    clickTimer = setTimeout(() => {
-                        if (clickCount === 1) {
-                            nav.classList.toggle('pinned');
-                        }
-                        clickCount = 0;
-                    }, 250);
-                } else if (clickCount === 2) {
-                    // Clique duplo: ocultar o menu
-                    clearTimeout(clickTimer);
-                    nav.classList.remove('pinned');
-                    clickCount = 0;
+        // Adicionar evento ao botao hide-btn para ocultar o menu
+        const hideMenuBtn = document.getElementById('hideMenuBtn');
+        if (hideMenuBtn) {
+            hideMenuBtn.addEventListener('click', () => {
+                const nav = document.getElementById('presentationNav');
+                if (nav) {
+                    // Ocultar o menu removendo as propriedades inline
+                    nav.style.opacity = '';
+                    nav.style.pointerEvents = '';
+                    nav.style.bottom = '';
                 }
             });
         }

@@ -962,6 +962,10 @@ body.light-mode {
     background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
 }
 
+.nav-btn.hide-btn {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
 .slide-indicator {
     color: var(--text-primary);
     font-weight: 600;
@@ -2062,13 +2066,6 @@ body.presentation-mode .presentation-nav {
 /* Mostrar menu ao passar mouse na parte inferior */
 body.presentation-mode .presentation-nav-trigger-zone:hover ~ .presentation-nav,
 body.presentation-mode .presentation-nav:hover {
-    opacity: 1;
-    pointer-events: auto;
-    bottom: 30px !important;
-}
-
-/* Menu fixado com a classe 'pinned' */
-body.presentation-mode .presentation-nav.pinned {
     opacity: 1;
     pointer-events: auto;
     bottom: 30px !important;
